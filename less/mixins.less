@@ -1,0 +1,22 @@
+/**
+*
+* LESS
+* Mixins sample
+*
+*/
+
+.radius(@radius: 5px) {
+    -webkit-border-radius: @radius;
+    -moz-border-radius: @radius;
+    -ms-border-radius: @radius;
+    -o-border-radius: @radius;
+    border-radius: @radius;
+}
+
+.default-radius {
+    .radius;
+}
+
+.custom-radius {
+    .radius(10px);
+}
