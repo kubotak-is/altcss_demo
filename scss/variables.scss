@@ -1,0 +1,28 @@
+/**
+*
+* SCSS
+* Variables sample
+*
+*/
+
+$variables-color: #443cf8;
+
+header {
+    h1 {
+        a {
+            color: $variables-color;
+            text-decoration: underline;
+        }
+    }
+}
+
+/**
+ * scope
+ */
+.this-scope {
+    $variables-color: #29ea31;
+    background-color: $variables-color;
+}
+.main {
+    background-color: $variables-color;
+}
