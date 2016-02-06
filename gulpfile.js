@@ -1,10 +1,15 @@
 /* ==========================================================================
    Module
    ========================================================================== */
-var gulp   = require('gulp'),
-    sass   = require('gulp-sass'),
-    less   = require('gulp-less'),
-    stylus = require('gulp-stylus');
+var gulp         = require('gulp'),
+    sass         = require('gulp-sass'),
+    less         = require('gulp-less'),
+    stylus       = require('gulp-stylus'),
+    postcss      = require('gulp-postcss'),
+    autoprefixer = require('autoprefixer'),
+    mqpacker     = require('css-mqpacker'),
+    csswring     = require('csswring'),
+    poststylus   = require('poststylus');
 
 /* ==========================================================================
    File Path
@@ -21,6 +26,10 @@ var paths = {
   'stylus': {
     'src': './stylus/!(_)*.styl',
     'dest': './compile/stylus'
+  },
+  'postcss': {
+    //'src': './postcss/*.css',
+    'dest': './compile/postcss'
   }
 };
 
@@ -50,6 +59,25 @@ gulp.task('stylus', function () {
   .pipe(gulp.dest(paths.stylus.dest));
 });
 
+gulp.task('postcss-w-stylus', function () {
+    var processors = [
+        autoprefixer({browsers: ['last 1 version']}),
+        mqpacker,
+        csswring
+    ];
+    return gulp.src(paths.stylus.src)
+    .pipe(stylus({
+        compress: false,
+        use: [
+            poststylus(processors)
+        ]
+    }))
+    .on('error', function (err) {
+        console.error('Error', err.message);
+    })
+    .pipe(gulp.dest(paths.postcss.dest));
+});
+
 gulp.task('default', [
-  'scss', 'less', 'stylus'
+  'scss', 'less', 'stylus', 'postcss-w-stylus'
 ], function () {});
